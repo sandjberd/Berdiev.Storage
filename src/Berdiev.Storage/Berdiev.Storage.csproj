@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Sandjar Berdiev</Copyright>
+    <NeutralLanguage>en-AT</NeutralLanguage>
+    <Authors>Sandjar Berdiev</Authors>
+    <Product>Berdiev.Storage.Xml</Product>
+    <Version>1.0.0-alpha.1</Version>
+    <PackageReleaseNotes>Initial version</PackageReleaseNotes>
+    <Configurations>Debug;Release;Test</Configurations>
+    <CodeAnalysisRuleSet>../../DefaultRuleSet.ruleset</CodeAnalysisRuleSet>
+    <Description>This package is used to persist data in different database types.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <NoWarn />
+    <DocumentationFile>D:\Development\.Net\Berdiev\Berdiev.Storage\Berdiev.Storage.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>D:\Development\.Net\Berdiev\Berdiev.Storage\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="DatabaseType.cs" />
+    <Compile Include="Factory\DatabaseFactory.cs" />
+    <Compile Include="Factory\SqLiteFactory.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
+  </ItemGroup>
+
+</Project>
