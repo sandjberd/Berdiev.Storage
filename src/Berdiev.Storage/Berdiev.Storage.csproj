@@ -26,10 +26,10 @@
     <Compile Include="DatabaseType.cs" />
     <Compile Include="Factory\DatabaseFactory.cs" />
     <Compile Include="Factory\SqLiteFactory.cs" />
-    <Compile Include="Repository\IRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

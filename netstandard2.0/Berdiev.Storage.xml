@@ -4,5 +4,34 @@
         <name>Berdiev.Storage</name>
     </assembly>
     <members>
+        <member name="T:Berdiev.Storage.DatabaseType">
+            <summary>
+            Represents database types.
+            </summary>
+        </member>
+        <member name="F:Berdiev.Storage.DatabaseType.SQLite">
+            <summary>
+            SQLite 
+            </summary>
+        </member>
+        <member name="F:Berdiev.Storage.DatabaseType.Postgres">
+            <summary>
+            Postgres
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.DatabaseFactory">
+            <summary>
+            Provides mechanism for database creations.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.DatabaseFactory.CreateDatabase(Berdiev.Storage.DatabaseType,System.String)">
+            <summary>
+            Creates a database, that can be used for further operations.
+            </summary>
+            <param name="type">Defines which database type should be created.</param>
+            <param name="filePath">Path where the database should be created.</param>
+            <exception cref="T:System.ArgumentException">If the file path is invalid</exception>
+            <exception cref="T:System.InvalidOperationException">If the database already exists</exception>
+        </member>
     </members>
 </doc>
