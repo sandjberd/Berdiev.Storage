@@ -10,6 +10,7 @@
       "Berdiev.Storage/1.0.0-alpha.1": {
         "dependencies": {
           "Dapper": "2.0.35",
+          "FluentMigrator": "3.2.9",
           "Microsoft.CodeAnalysis.FxCopAnalyzers": "3.3.0",
           "NETStandard.Library": "2.0.3",
           "System.Data.SQLite.Core": "1.0.113.1"
@@ -29,6 +30,36 @@
           }
         }
       },
+      "FluentMigrator/3.2.9": {
+        "dependencies": {
+          "FluentMigrator.Abstractions": "3.2.9",
+          "Microsoft.Extensions.DependencyInjection": "2.0.0",
+          "Microsoft.Extensions.Options": "2.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/FluentMigrator.dll": {
+            "assemblyVersion": "3.2.9.0",
+            "fileVersion": "3.2.9.0"
+          }
+        }
+      },
+      "FluentMigrator.Abstractions/3.2.9": {
+        "dependencies": {
+          "System.ComponentModel.Annotations": "4.4.1",
+          "System.ValueTuple": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/FluentMigrator.Abstractions.dll": {
+            "assemblyVersion": "3.2.9.0",
+            "fileVersion": "3.2.9.0"
+          }
+        },
+        "resources": {
+          "lib/netstandard2.0/de-DE/FluentMigrator.Abstractions.resources.dll": {
+            "locale": "de-DE"
+          }
+        }
+      },
       "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
         "dependencies": {
           "Microsoft.CodeAnalysis.VersionCheckAnalyzer": "3.3.0",
@@ -39,12 +70,62 @@
       },
       "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {},
       "Microsoft.CodeQuality.Analyzers/3.3.0": {},
+      "Microsoft.Extensions.DependencyInjection/2.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options/2.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Primitives": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.18051"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/2.0.0": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
       "Microsoft.NetCore.Analyzers/3.3.0": {},
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NetFramework.Analyzers/3.3.0": {},
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "System.ComponentModel.Annotations/4.4.1": {
+        "runtime": {
+          "lib/netstandard2.0/System.ComponentModel.Annotations.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.6.25921.2"
+          }
         }
       },
       "System.Data.SQLite.Core/1.0.113.1": {
@@ -73,7 +154,16 @@
             "fileVersion": "4.700.19.56404"
           }
         }
-      }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "System.ValueTuple/4.4.0": {}
     }
   },
   "libraries": {
@@ -88,6 +178,20 @@
       "sha512": "sha512-/xAgd8BO8EDnJ0sURWEV8LptHHvTKxoYiT63YUF2U/yWE2VyUCqR2jcrtEyNngT9Kjzppecz95UKiBla3PnR7g==",
       "path": "dapper/2.0.35",
       "hashPath": "dapper.2.0.35.nupkg.sha512"
+    },
+    "FluentMigrator/3.2.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NtAU3NmxZc49DYu5CZlTgP9OPnm8Uhg7Rk7T5jMzdnJ6nBIqMdrPJYtTR1FI3wA5wttsxV047YnokiiZ4vYCQg==",
+      "path": "fluentmigrator/3.2.9",
+      "hashPath": "fluentmigrator.3.2.9.nupkg.sha512"
+    },
+    "FluentMigrator.Abstractions/3.2.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SVA3fp7ZrwwRC2U90bvbMmzSX6TXqnYgAKqooPamJRL1vXxUn0rRQ2v89nz7A+M1cytXk8pUGcEtNjj5WVb6XQ==",
+      "path": "fluentmigrator.abstractions/3.2.9",
+      "hashPath": "fluentmigrator.abstractions.3.2.9.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
       "type": "package",
@@ -109,6 +213,34 @@
       "sha512": "sha512-zZ3miq6u22UFQKhfJyLnVEJ+DgeOopLh3eKJnKAcOetPP2hiv3wa7kHZlBDeTvtqJQiAQhAVbttket8XxjN1zw==",
       "path": "microsoft.codequality.analyzers/3.3.0",
       "hashPath": "microsoft.codequality.analyzers.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wakg18gHYiUL1pcjjyZuYk6OvDpbSw1E7IWxm78TMepsr+gQ8W0tWzuRm0q/9RFblngwPwo15rrgZSUV51W5Iw==",
+      "path": "microsoft.extensions.dependencyinjection/2.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eUdJ0Q/GfVyUJc0Jal5L1QZLceL78pvEM9wEKcHeI24KorqMDoVX+gWsMGLulQMfOwsUaPtkpQM2pFERTzSfSg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/2.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gxo2Bgg4D6+uyQz1Wdj1FAcBD3870+t37YjplyQXmjLzPWaoU89AIg3AXBXw4fR9CCdWLputZBLm3YaBx+oDFQ==",
+      "path": "microsoft.extensions.options/2.0.1",
+      "hashPath": "microsoft.extensions.options.2.0.1.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ukg53qNlqTrK38WA30b5qhw0GD7y3jdI9PHHASjdKyTcBHTevFM2o23tyk3pWCgAV27Bbkm+CPQ2zUe1ZOuYSA==",
+      "path": "microsoft.extensions.primitives/2.0.0",
+      "hashPath": "microsoft.extensions.primitives.2.0.0.nupkg.sha512"
     },
     "Microsoft.NetCore.Analyzers/3.3.0": {
       "type": "package",
@@ -138,6 +270,13 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
+    "System.ComponentModel.Annotations/4.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ToiYqSCioqhtspq2O/jYKtyTC/T0uwWHBTYlzCi6PRbSSHArN1IaRWeHffDamvms5sye5FDUWCfNZgubQpNRsA==",
+      "path": "system.componentmodel.annotations/4.4.1",
+      "hashPath": "system.componentmodel.annotations.4.4.1.nupkg.sha512"
+    },
     "System.Data.SQLite.Core/1.0.113.1": {
       "type": "package",
       "serviceable": true,
@@ -158,6 +297,20 @@
       "sha512": "sha512-a4OLB4IITxAXJeV74MDx49Oq2+PsF6Sml54XAFv+2RyWwtDBcabzoxiiJRhdhx+gaohLh4hEGCLQyBozXoQPqA==",
       "path": "system.reflection.emit.lightweight/4.7.0",
       "hashPath": "system.reflection.emit.lightweight.4.7.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9dLLuBxr5GNmOfl2jSMcsHuteEg32BEfUotmmUkmZjpR3RpVHE8YQwt0ow3p6prwA1ME8WqDVZqrr8z6H8G+Kw==",
+      "path": "system.runtime.compilerservices.unsafe/4.4.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+    },
+    "System.ValueTuple/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BahUww/+mdP4ARCAh2RQhQTg13wYLVrBb9SYVgW8ZlrwjraGCXHGjo0oIiUfZ34LUZkMMR+RAzR7dEY4S1HeQQ==",
+      "path": "system.valuetuple/4.4.0",
+      "hashPath": "system.valuetuple.4.4.0.nupkg.sha512"
     }
   }
 }

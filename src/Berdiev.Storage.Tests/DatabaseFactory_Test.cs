@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Berdiev.Storage.Tests
 {
-    public class Tests
+    public class DatabaseFactory_Test
     {
         private string _filePath;
 
