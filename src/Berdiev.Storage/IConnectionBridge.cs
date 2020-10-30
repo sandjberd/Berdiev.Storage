@@ -69,12 +69,36 @@ namespace Berdiev.Storage
         /// <returns>True, if the update was successful, otherwise false.</returns>
         Task<bool> UpdateAsync<T>(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses);
 
+        /// <summary>
+        /// Inserts an item into table.
+        /// </summary>
+        /// <param name="item">Item to insert in the table.</param>
+        /// <typeparam name="T">The type represents the table.</typeparam>
+        /// <returns>True, if insertion was successful, otherwise false.</returns>
         bool Insert<T>(T item);
 
+        /// <summary>
+        /// Inserts an item into table in async way.
+        /// </summary>
+        /// <param name="item">Item to insert in the table.</param>
+        /// <typeparam name="T">The type represents the table.</typeparam>
+        /// <returns>True, if insertion was successful, otherwise false.</returns>
         Task<bool> InsertAsync<T>(T item);
 
+        /// <summary>
+        /// Inserts many items into table.
+        /// </summary>
+        /// <param name="items">Items to insert in the table.</param>
+        /// <typeparam name="T">The type represents the table.</typeparam>
+        /// <returns>True, if insertion was successful, otherwise false.</returns>
         bool InsertMany<T>(IEnumerable<T> items);
 
+        /// <summary>
+        /// Inserts many items into table in async way.
+        /// </summary>
+        /// <param name="items">Items to insert in the table.</param>
+        /// <typeparam name="T">The type represents the table.</typeparam>
+        /// <returns>True, if insertion was successful, otherwise false.</returns>
         Task<bool> InsertManyAsync<T>(IEnumerable<T> items);
 
         /// <summary>

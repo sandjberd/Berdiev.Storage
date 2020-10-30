@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -108,11 +107,11 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var t = _CreateObjectForUpdate<T>(columnsToUpdate, whereClauses);
 
-            _connection.Execute(sql, t);
+            var rowsAffected = _connection.Execute(sql, t);
 
             Monitor.Exit(_lock);
 
-            return true;
+            return rowsAffected > 0;
         }
 
         public async Task<bool> UpdateAsync<T>(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses)
@@ -132,6 +131,8 @@ namespace Berdiev.Storage.ConnectionBridge
 
         public bool Insert<T>(T item)
         {
+            Monitor.Enter(_lock);
+
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
@@ -139,12 +140,16 @@ namespace Berdiev.Storage.ConnectionBridge
             var cmdDefinition = new CommandDefinition(sql, item);
 
             var affectedRows = _connection.Execute(cmdDefinition);
+
+            Monitor.Exit(_lock);
 
             return affectedRows > 0;
         }
 
         public async Task<bool> InsertAsync<T>(T item)
         {
+            Monitor.Enter(_lock);
+
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
@@ -153,11 +158,15 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var affectedRows = await _connection.ExecuteAsync(cmdDefinition).ConfigureAwait(false);
 
+            Monitor.Exit(_lock);
+
             return affectedRows > 0;
         }
 
         public bool InsertMany<T>(IEnumerable<T> items)
         {
+            Monitor.Enter(_lock);
+
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
@@ -166,11 +175,15 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var affectedRows = _connection.Execute(cmdDefinition);
 
+            Monitor.Exit(_lock);
+
             return affectedRows == items.Count();
         }
 
         public async Task<bool> InsertManyAsync<T>(IEnumerable<T> items)
         {
+            Monitor.Enter(_lock);
+
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
@@ -179,17 +192,47 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var affectedRows = await _connection.ExecuteAsync(cmdDefinition).ConfigureAwait(false);
 
+            Monitor.Exit(_lock);
+
             return affectedRows > 0;
         }
 
         public bool Delete<T>(IReadOnlyList<WhereClause> whereClauses)
         {
-            throw new NotImplementedException();
+            Monitor.Enter(_lock);
+
+            _VerifyClassAsTable<T>();
+
+            var sql = _CreateDeleteSqlStatement<T>(whereClauses);
+
+            var whereObject = _CreateObjectForWhereClauses(whereClauses);
+
+            var cmdDefinition = new CommandDefinition(sql, whereObject);
+
+            var affectedRows = _connection.Execute(cmdDefinition);
+
+            Monitor.Exit(_lock);
+
+            return affectedRows > 0;
         }
 
-        public Task<bool> DeleteAsync<T>(IReadOnlyList<WhereClause> whereClauses)
+        public async Task<bool> DeleteAsync<T>(IReadOnlyList<WhereClause> whereClauses)
         {
-            throw new NotImplementedException();
+            Monitor.Enter(_lock);
+
+            _VerifyClassAsTable<T>();
+
+            var sql = _CreateDeleteSqlStatement<T>(whereClauses);
+
+            var whereObject = _CreateObjectForWhereClauses(whereClauses);
+
+            var cmdDefinition = new CommandDefinition(sql, whereObject);
+
+            var affectedRows = await _connection.ExecuteAsync(cmdDefinition).ConfigureAwait(false);
+
+            Monitor.Exit(_lock);
+
+            return affectedRows > 0;
         }
 
         private static void _VerifyClassAsTable<T>()
@@ -211,7 +254,7 @@ namespace Berdiev.Storage.ConnectionBridge
 
             foreach (var whereClause in whereClauses)
             {
-                objectMappings.Add(whereClause.ColumnName, whereClause.ColumnValue);
+                objectMappings.Add(whereClause.ColumnName + ColumnNameWhereClausePostfix, whereClause.ColumnValue);
             }
 
             return new DynamicParameters(objectMappings);
@@ -257,6 +300,19 @@ namespace Berdiev.Storage.ConnectionBridge
             var columnValues = columnValueBuilder.ToString();
 
             var sql = $"INSERT INTO {typeof(T).Name} {columnNames} VALUES {columnValues};";
+            return sql;
+        }
+
+        private static string _CreateDeleteSqlStatement<T>(IReadOnlyList<WhereClause> whereClauses)
+        {
+            var sql = $"DELETE FROM {typeof(T).Name};";
+
+            if (whereClauses.Any())
+            {
+                var whereClausesSql = _CreateWhereSqlStatement(whereClauses);
+                sql = $"DELETE FROM {typeof(T).Name} {whereClausesSql};";
+            }
+
             return sql;
         }
 

@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Berdiev.Storage.Factory;
+using Berdiev.Storage.SqlStatements;
 using NUnit.Framework;
 
 namespace Berdiev.Storage.Tests.ConnectionBridge
@@ -59,7 +61,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             var res = connection.Insert(p1);
             Assert.IsTrue(res);
         }
-
+        
         [Test]
         public async Task CanInsertAsync()
         {
@@ -95,6 +97,232 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             var res = await connection.InsertManyAsync(persons).ConfigureAwait(false);
 
             Assert.IsTrue(res);
+        }
+
+        [Test]
+        public void CanGetAll()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var returnedPersons = connection.GetAll<Person>().ToList();
+
+            Assert.AreEqual(30, returnedPersons.Count);
+            Assert.AreEqual("foo 29", returnedPersons.Last().Name);
+            Assert.AreEqual(30, returnedPersons.Last().Id);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public async Task CanGetAllAsync()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var returnedPersons = await connection.GetAllAsync<Person>().ConfigureAwait(false);
+
+            Assert.AreEqual(30, returnedPersons.ToList().Count);
+            Assert.AreEqual("foo 29", returnedPersons.Last().Name);
+            Assert.AreEqual(30, returnedPersons.Last().Id);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public void CanSelect()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause1 = new WhereClause("Name", "foo 15");
+            var whereClause2 = new WhereClause("Id", 16);
+
+            var selectedRows = connection.SelectRecords<Person>(new List<WhereClause>
+            {
+                whereClause1,
+                whereClause2
+            });
+
+            Assert.AreEqual(1, selectedRows.ToList().Count);
+            Assert.AreEqual("foo 15", selectedRows.First().Name);
+            Assert.AreEqual(16, selectedRows.First().Id);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public async Task CanSelectAsync()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause1 = new WhereClause("Name", "foo 15");
+            var whereClause2 = new WhereClause("Id", 16);
+
+            var selectedRows = await connection.SelectRecordsAsync<Person>(new List<WhereClause>
+            {
+                whereClause1,
+                whereClause2
+            }).ConfigureAwait(false);
+
+            Assert.AreEqual(1, selectedRows.ToList().Count);
+            Assert.AreEqual("foo 15", selectedRows.First().Name);
+            Assert.AreEqual(16, selectedRows.First().Id);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public void CanUpdate()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause1 = new WhereClause("Name", "foo 15");
+            var whereClause2 = new WhereClause("Id", 16);
+
+            var columnToUpdate = new ColumnToUpdate("Name", "You crazy mother******");
+
+            var updateRes = connection.Update<Person>(new List<ColumnToUpdate>
+            {
+                columnToUpdate
+            }, new List<WhereClause>
+            {
+                whereClause1,
+                whereClause2
+            });
+
+            var newWhereClause = new WhereClause("Name", "You crazy mother******");
+
+            var selectedRows = connection.SelectRecords<Person>(new List<WhereClause>
+            {
+                newWhereClause
+            });
+
+            Assert.IsTrue(insertManyRes);
+            Assert.IsTrue(updateRes);
+            Assert.AreEqual(1, selectedRows.ToList().Count);
+            Assert.AreEqual("You crazy mother******", selectedRows.First().Name);
+            Assert.AreEqual(16, selectedRows.First().Id);
+        }
+
+        [Test]
+        public async Task CanUpdateAsync()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause1 = new WhereClause("Name", "foo 15");
+            var whereClause2 = new WhereClause("Id", 16);
+
+            var columnToUpdate = new ColumnToUpdate("Name", "You crazy mother******");
+
+            var updateRes = await connection.UpdateAsync<Person>(new List<ColumnToUpdate>
+            {
+                columnToUpdate
+            }, new List<WhereClause>
+            {
+                whereClause1,
+                whereClause2
+            }).ConfigureAwait(false);
+
+            var newWhereClause = new WhereClause("Name", "You crazy mother******");
+
+            var selectedRows = connection.SelectRecords<Person>(new List<WhereClause>
+            {
+                newWhereClause
+            });
+
+            Assert.IsTrue(insertManyRes);
+            Assert.IsTrue(updateRes);
+            Assert.AreEqual(1, selectedRows.ToList().Count);
+            Assert.AreEqual("You crazy mother******", selectedRows.First().Name);
+            Assert.AreEqual(16, selectedRows.First().Id);
+        }
+
+        [Test]
+        public void CanDelete()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause = new WhereClause("Id", 16);
+
+            var deleteResult = connection.Delete<Person>(new List<WhereClause>
+            {
+                whereClause
+            });
+
+            var selectedRows = connection.SelectRecords<Person>(new List<WhereClause>
+            {
+                whereClause
+            });
+
+            Assert.AreEqual(0, selectedRows.ToList().Count);
+            Assert.IsTrue(deleteResult);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public async Task CanDeleteAsync()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var whereClause = new WhereClause("Id", 16);
+
+            var deleteResult = await connection.DeleteAsync<Person>(new List<WhereClause>
+            {
+                whereClause
+            });
+
+            var selectedRows = connection.SelectRecords<Person>(new List<WhereClause>
+            {
+                whereClause
+            });
+
+            Assert.AreEqual(0, selectedRows.ToList().Count);
+            Assert.IsTrue(deleteResult);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public void CanDeleteAll()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var deleteResult = connection.Delete<Person>(new List<WhereClause>());
+
+            var selectedRows = connection.GetAll<Person>();
+
+            Assert.AreEqual(0, selectedRows.ToList().Count);
+            Assert.IsTrue(deleteResult);
+            Assert.IsTrue(insertManyRes);
         }
 
         private List<Person> _CreateManyPersons(int count)
@@ -138,6 +366,8 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             public double DoubleValue { get; set; }
 
             public int Count { get; set; }
+
+            public int Id { get; set; }
         }
     }
 }

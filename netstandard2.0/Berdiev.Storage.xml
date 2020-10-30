@@ -207,19 +207,29 @@
             <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
             <returns>True, if deletion was successful, otherwise false.</returns>
         </member>
+        <member name="T:Berdiev.Storage.SqlStatements.WhereClause">
+            <summary>
+            This is used as standard SQL where clause for basic CRUD operations.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.SqlStatements.WhereClause.#ctor(System.String,System.Object)">
+            <summary>
+            Instantiates the where clause.
+            </summary>
+        </member>
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnName">
             <summary>
-            
+            Column name of the table.
             </summary>
         </member>
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnType">
             <summary>
-            
+            The table column type.
             </summary>
         </member>
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnValue">
             <summary>
-            
+            The value of the table column.
             </summary>
         </member>
     </members>
