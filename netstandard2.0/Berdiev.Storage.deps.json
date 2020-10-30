@@ -11,6 +11,7 @@
         "dependencies": {
           "Dapper": "2.0.35",
           "FluentMigrator": "3.2.9",
+          "Microsoft.CSharp": "4.7.0",
           "Microsoft.CodeAnalysis.FxCopAnalyzers": "3.3.0",
           "NETStandard.Library": "2.0.3",
           "System.Data.SQLite.Core": "1.0.113.1"
@@ -70,6 +71,14 @@
       },
       "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {},
       "Microsoft.CodeQuality.Analyzers/3.3.0": {},
+      "Microsoft.CSharp/4.7.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.CSharp.dll": {
+            "assemblyVersion": "4.0.5.0",
+            "fileVersion": "4.700.19.56404"
+          }
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/2.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
@@ -213,6 +222,13 @@
       "sha512": "sha512-zZ3miq6u22UFQKhfJyLnVEJ+DgeOopLh3eKJnKAcOetPP2hiv3wa7kHZlBDeTvtqJQiAQhAVbttket8XxjN1zw==",
       "path": "microsoft.codequality.analyzers/3.3.0",
       "hashPath": "microsoft.codequality.analyzers.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection/2.0.0": {
       "type": "package",

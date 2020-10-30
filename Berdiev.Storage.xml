@@ -44,9 +44,9 @@
             Sets the column as foreign key.
             </summary>
         </member>
-        <member name="P:Berdiev.Storage.Factory.Column.IsIdentity">
+        <member name="P:Berdiev.Storage.Factory.Column.IsAutoIncrement">
             <summary>
-            Sets the column as identity.
+            Auto increment for the column. Column must be an INTEGER.
             </summary>
         </member>
         <member name="M:Berdiev.Storage.Factory.Column.Default``1(System.String)">
@@ -63,8 +63,20 @@
             <param name="columnName">Name of the column.</param>
             <param name="primaryKey">Sets the column as primary key.</param>
             <param name="foreignKey">Sets the column as foreign key.</param>
-            <param name="identity">Defines the column as identity.</param>
+            <param name="autoIncrement">Defines the column as autoIncrement.</param>
             <typeparam name="T">Type of the column.</typeparam>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.ConnectionFactory">
+            <summary>
+            Provides factory for database connections.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.ConnectionFactory.CreateSqLiteConnection(System.String)">
+            <summary>
+            Creates a sql lite connection.
+            </summary>
+            <param name="path">Path of the database.</param>
+            <exception cref="T:System.InvalidOperationException">Throws if the database does not exist.</exception>
         </member>
         <member name="T:Berdiev.Storage.Factory.DatabaseFactory">
             <summary>
@@ -116,6 +128,99 @@
             <param name="table">Table configuration for the table creation.</param>
             <exception cref="T:System.NotSupportedException">Thrown if the type is not supported.</exception>
             <exception cref="T:System.NotSupportedException">If the database does not exist.</exception>
+        </member>
+        <member name="T:Berdiev.Storage.IConnectionBridge">
+             <summary>
+             This represents a connection between a database and the domain level.
+             The owner of this has the control of CRUD operations of the desired database.
+            
+             <para>
+             Note that the owner must dispose the instance if it's not needed anymore.
+             </para>
+             
+             <para>
+             Every operation is thread safe. That means that CRUD operations are executed sequentially of different threads.
+             </para>
+             </summary>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetAll``1">
+            <summary>
+            Gets all records of a table. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetAllAsync``1">
+            <summary>
+            Gets all records of a table in async way. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.SelectRecords``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Selects specific records that are filtered by a 'where clause'. (SELECT * FROM [TABLE-NAME] WHERE ...;)
+            </summary>
+            <param name="whereClauses">Where clauses for filtering the records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>Filtered records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.SelectRecordsAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Selects specific records that are filtered by a 'where clause' in async way. (SELECT * FROM [TABLE-NAME] WHERE ...;)
+            </summary>
+            <param name="whereClauses">Where clauses for filtering the records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>Filtered records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Update``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.ColumnToUpdate},System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Updates specific columns of a table. (UPDATE [TABLE-NAME] SET [columns] = [columnValues] WHERE ...;)
+            </summary>
+            <param name="columnsToUpdate">Defines column names and column values. These values represents the future values of the table.</param>
+            <param name="whereClauses">Where clauses for updating the values.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if the update was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.UpdateAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.ColumnToUpdate},System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Updates specific columns of a table in async way. (UPDATE [TABLE-NAME] SET [columns] = [columnValues] WHERE ...;)
+            </summary>
+            <param name="columnsToUpdate">Defines column names and column values. These values represents the future values of the table.</param>
+            <param name="whereClauses">Where clauses for updating the values.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if the update was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Delete``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Deletes records of a specific table. (DELETE FROM [TABLE-NAME] WHERE ....;)
+            </summary>
+            <param name="whereClauses">Where clauses for deleting records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if deletion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.DeleteAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Deletes records of a specific table in async way. (DELETE FROM [TABLE-NAME] WHERE ....;)
+            </summary>
+            <param name="whereClauses">Where clauses for deleting records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if deletion was successful, otherwise false.</returns>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnValue">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>

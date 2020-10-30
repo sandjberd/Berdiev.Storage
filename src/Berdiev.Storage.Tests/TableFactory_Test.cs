@@ -50,7 +50,11 @@ namespace Berdiev.Storage.Tests
 
         private class ComplexThing
         {
+            [Column("Thing")]
             public String Thing { get; set; }
+
+            [Column("Id", true)]
+            public int Id { get; set; }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿//Copyright by Sandjar Berdiev
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Berdiev.Storage.Factory
@@ -33,7 +32,21 @@ namespace Berdiev.Storage.Factory
         {
             var type = _GetSqLiteType(column);
 
-            return column.ColumnName + " " + " " + type;
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(column.ColumnName).Append(' ').Append(type);
+
+            if (column.IsPrimaryKey)
+            {
+                stringBuilder.Append(' ').Append("PRIMARY KEY");
+            }
+
+            if (column.IsAutoIncrement)
+            {
+                stringBuilder.Append(' ').Append("AUTOINCREMENT");
+            }
+
+            return stringBuilder.ToString();
         }
 
         private static string _GetSqLiteType(Column column)

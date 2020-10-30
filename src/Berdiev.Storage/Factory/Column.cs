@@ -9,13 +9,13 @@ namespace Berdiev.Storage.Factory
     /// </summary>
     public class Column
     {
-        internal Column(string columnName, Type columnType, bool isPrimaryKey, bool isForeignKey, bool isIdentity)
+        internal Column(string columnName, Type columnType, bool isPrimaryKey, bool isForeignKey, bool isAutoIncrement)
         {
             ColumnName = columnName;
             ColumnType = columnType;
             IsPrimaryKey = isPrimaryKey;
             IsForeignKey = isForeignKey;
-            IsIdentity = isIdentity;
+            IsAutoIncrement = isAutoIncrement;
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace Berdiev.Storage.Factory
         public Boolean IsForeignKey { get; }
 
         /// <summary>
-        /// Sets the column as identity.
+        /// Auto increment for the column. Column must be an INTEGER.
         /// </summary>
-        public Boolean IsIdentity { get; }
+        public Boolean IsAutoIncrement { get; }
 
         /// <summary>
         /// Creates a default column.
@@ -59,11 +59,11 @@ namespace Berdiev.Storage.Factory
         /// <param name="columnName">Name of the column.</param>
         /// <param name="primaryKey">Sets the column as primary key.</param>
         /// <param name="foreignKey">Sets the column as foreign key.</param>
-        /// <param name="identity">Defines the column as identity.</param>
+        /// <param name="autoIncrement">Defines the column as autoIncrement.</param>
         /// <typeparam name="T">Type of the column.</typeparam>
-        public static Column From<T>(string columnName, bool primaryKey, bool foreignKey, bool identity)
+        public static Column From<T>(string columnName, bool primaryKey, bool foreignKey, bool autoIncrement)
         {
-            return new Column(columnName, typeof(T), primaryKey, foreignKey, identity);
+            return new Column(columnName, typeof(T), primaryKey, foreignKey, autoIncrement);
         }
     }
 }
