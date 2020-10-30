@@ -18,7 +18,7 @@ namespace Berdiev.Storage.ConnectionBridge
         private readonly SQLiteConnection _connection;
         private const string ColumnNameWhereClausePostfix = "WhereToUpdate";
 
-        private object _lock;
+        private readonly object _lock;
 
         public SqLiteConnectionBridge(SQLiteConnection connection)
         {
@@ -333,12 +333,12 @@ namespace Berdiev.Storage.ConnectionBridge
                 prefix = ", ";
             }
 
-            var sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition.ToString()};";
+            var sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition};";
 
             if (whereClauses.Any())
             {
                 var whereClausesSql = _CreateWhereSqlStatement(whereClauses);
-                sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition.ToString()} {whereClausesSql};";
+                sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition} {whereClausesSql};";
             }
 
             return sql;

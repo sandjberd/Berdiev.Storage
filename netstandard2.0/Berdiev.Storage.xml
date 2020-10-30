@@ -4,6 +4,21 @@
         <name>Berdiev.Storage</name>
     </assembly>
     <members>
+        <member name="T:Berdiev.Storage.ColumnAttribute">
+            <summary>
+            This is used to mark a column of a table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.ColumnAttribute.ColumnName">
+            <summary>
+            Name of the column.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.ColumnAttribute.#ctor(System.String)">
+            <summary>
+            Instantiates new column attribute.
+            </summary>
+        </member>
         <member name="T:Berdiev.Storage.DatabaseType">
             <summary>
             Represents database types.
@@ -191,6 +206,38 @@
             <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
             <returns>True, if the update was successful, otherwise false.</returns>
         </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Insert``1(``0)">
+            <summary>
+            Inserts an item into table.
+            </summary>
+            <param name="item">Item to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertAsync``1(``0)">
+            <summary>
+            Inserts an item into table in async way.
+            </summary>
+            <param name="item">Item to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertMany``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts many items into table.
+            </summary>
+            <param name="items">Items to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertManyAsync``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts many items into table in async way.
+            </summary>
+            <param name="items">Items to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
         <member name="M:Berdiev.Storage.IConnectionBridge.Delete``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
             <summary>
             Deletes records of a specific table. (DELETE FROM [TABLE-NAME] WHERE ....;)
@@ -206,6 +253,26 @@
             <param name="whereClauses">Where clauses for deleting records.</param>
             <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
             <returns>True, if deletion was successful, otherwise false.</returns>
+        </member>
+        <member name="T:Berdiev.Storage.SqlStatements.ColumnToUpdate">
+            <summary>
+            This represents a column of a specific table for update.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.SqlStatements.ColumnToUpdate.#ctor(System.String,System.Object)">
+            <summary>
+            Instantiates new column.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.ColumnToUpdate.ColumnName">
+            <summary>
+            Column name of the table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.ColumnToUpdate.Value">
+            <summary>
+            The new value that is used to update.
+            </summary>
         </member>
         <member name="T:Berdiev.Storage.SqlStatements.WhereClause">
             <summary>
@@ -230,6 +297,21 @@
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnValue">
             <summary>
             The value of the table column.
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.TableAttribute">
+            <summary>
+            This attribute is used to mark a table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.TableAttribute.TableName">
+            <summary>
+            Represents the table name.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.TableAttribute.#ctor(System.String)">
+            <summary>
+            Instantiates new attribute.
             </summary>
         </member>
     </members>

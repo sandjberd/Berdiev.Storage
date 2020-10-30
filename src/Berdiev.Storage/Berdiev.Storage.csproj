@@ -36,7 +36,6 @@
     <Compile Include="IConnectionBridge.cs" />
     <Compile Include="ConnectionBridge\ColumnDescription.cs" />
     <Compile Include="SqlStatements\ColumnToUpdate.cs" />
-    <Compile Include="SqlStatements\QueryExtensions.cs" />
     <Compile Include="SqlStatements\WhereClause.cs" />
     <Compile Include="TableAttribute.cs" />
   </ItemGroup>

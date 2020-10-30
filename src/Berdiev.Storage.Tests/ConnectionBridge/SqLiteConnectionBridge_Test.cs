@@ -54,9 +54,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
         {
             var connection = ConnectionFactory.CreateSqLite(_path);
 
-            var p1 = new Person();
-            p1.Name = "Hugo";
-            p1.Buruthday = DateTime.UtcNow;
+            var p1 = new Person {Name = "Hugo", Buruthday = DateTime.UtcNow};
 
             var res = connection.Insert(p1);
             Assert.IsTrue(res);
@@ -67,9 +65,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
         {
             var connection = ConnectionFactory.CreateSqLite(_path);
 
-            var p1 = new Person();
-            p1.Name = "Hugo";
-            p1.Buruthday = DateTime.UtcNow;
+            var p1 = new Person {Name = "Hugo", Buruthday = DateTime.UtcNow};
 
             var res = await connection.InsertAsync(p1);
             Assert.IsTrue(res);

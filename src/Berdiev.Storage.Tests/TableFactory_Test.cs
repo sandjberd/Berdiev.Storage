@@ -53,7 +53,7 @@ namespace Berdiev.Storage.Tests
             [Column("Thing")]
             public String Thing { get; set; }
 
-            [Column("Id", true)]
+            [Column("Id")]
             public int Id { get; set; }
         }
     }
