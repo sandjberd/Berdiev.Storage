@@ -22,7 +22,7 @@
     <OutputPath>D:\Development\.Net\Berdiev\Berdiev.Storage\</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Compile Include="ColumnAttribute.cs" />
     <Compile Include="ConnectionBridge\SqLiteConnectionBridge.cs" />
     <Compile Include="DatabaseType.cs" />
