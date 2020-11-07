@@ -169,7 +169,9 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var sql = _CreateInsertSqlStatement<T>();
 
-            var cmdDefinition = new CommandDefinition(sql, items);
+            var objects = items.Select(_CreateObjectForInsert);
+
+            var cmdDefinition = new CommandDefinition(sql, objects);
 
             var affectedRows = _connection.Execute(cmdDefinition);
 
@@ -183,8 +185,9 @@ namespace Berdiev.Storage.ConnectionBridge
             Monitor.Enter(_lock);
 
             var sql = _CreateInsertSqlStatement<T>();
+            var objects = items.Select(_CreateObjectForInsert);
 
-            var cmdDefinition = new CommandDefinition(sql, items);
+            var cmdDefinition = new CommandDefinition(sql, objects);
 
             var affectedRows = await _connection.ExecuteAsync(cmdDefinition).ConfigureAwait(false);
 

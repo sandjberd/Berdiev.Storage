@@ -29,7 +29,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
 
             var id = Column.From<int>("Id", true, false, true);
             var name = Column.Default<String>("Name");
-            var birthday = Column.Default<DateTime>("Buruthday");
+            var birthday = Column.Default<DateTime>("Birthday");
             var data = Column.Default<String>("Data");
             var doubleValue = Column.Default<double>("DoubleValue");
 
@@ -109,6 +109,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             Assert.AreEqual(30, returnedPersons.Count);
             Assert.AreEqual("foo 29", returnedPersons.Last().Name);
             Assert.AreEqual(30, returnedPersons.Last().Id);
+            Assert.NotNull(returnedPersons.Last().Buruthday);
             Assert.IsTrue(insertManyRes);
         }
 
@@ -249,6 +250,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             Assert.AreEqual(1, selectedRows.ToList().Count);
             Assert.AreEqual("You crazy mother******", selectedRows.First().Name);
             Assert.AreEqual(16, selectedRows.First().Id);
+            Assert.NotNull(selectedRows.First().Buruthday);
         }
 
         [Test]
@@ -352,7 +354,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             [Column("Name")]
             public string Name { get; set; }
 
-            [Column("Buruthday")]
+            [Column("Birthday")]
             public DateTime Buruthday { get; set; }
 
             [Column("Data")]
