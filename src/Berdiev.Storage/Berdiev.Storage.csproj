@@ -5,7 +5,7 @@
     <Copyright>Sandjar Berdiev</Copyright>
     <NeutralLanguage>en-AT</NeutralLanguage>
     <Authors>Sandjar Berdiev</Authors>
-    <Product>Berdiev.Storage.Xml</Product>
+    <Product>Berdiev.Storage</Product>
     <Version>1.0.0-alpha.1</Version>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
     <Configurations>Debug;Release;Test</Configurations>
@@ -20,6 +20,7 @@
     <DocumentationFile>D:\Development\.Net\Berdiev\Berdiev.Storage\Berdiev.Storage.xml</DocumentationFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <OutputPath>D:\Development\.Net\Berdiev\Berdiev.Storage\</OutputPath>
+    <WarningLevel>2</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

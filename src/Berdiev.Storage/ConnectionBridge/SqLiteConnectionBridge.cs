@@ -136,8 +136,9 @@ namespace Berdiev.Storage.ConnectionBridge
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
+            var objectToInsert = _CreateObjectForInsert(item);
 
-            var cmdDefinition = new CommandDefinition(sql, item);
+            var cmdDefinition = new CommandDefinition(sql, objectToInsert);
 
             var affectedRows = _connection.Execute(cmdDefinition);
 
@@ -146,6 +147,8 @@ namespace Berdiev.Storage.ConnectionBridge
             return affectedRows > 0;
         }
 
+
+
         public async Task<bool> InsertAsync<T>(T item)
         {
             Monitor.Enter(_lock);
@@ -153,8 +156,9 @@ namespace Berdiev.Storage.ConnectionBridge
             _VerifyClassAsTable<T>();
 
             var sql = _CreateInsertSqlStatement<T>();
+            var objectToInsert = _CreateObjectForInsert(item);
 
-            var cmdDefinition = new CommandDefinition(sql, item);
+            var cmdDefinition = new CommandDefinition(sql, objectToInsert);
 
             var affectedRows = await _connection.ExecuteAsync(cmdDefinition).ConfigureAwait(false);
 
@@ -382,6 +386,22 @@ namespace Berdiev.Storage.ConnectionBridge
             }
 
             return columnDescriptions;
+        }
+
+        private object _CreateObjectForInsert<T>(T item)
+        {
+            var objectMappings = new Dictionary<string, object>();
+
+            foreach (var propertyInfo in typeof(T).GetProperties())
+            {
+                if (!propertyInfo.HasAttribute<ColumnAttribute>())
+                    continue;
+
+                var attr = propertyInfo.GetOneAttribute<ColumnAttribute>();
+                objectMappings.Add(attr.ColumnName, propertyInfo.GetValue(item));
+            }
+
+            return new DynamicParameters(objectMappings);
         }
     }
 }
