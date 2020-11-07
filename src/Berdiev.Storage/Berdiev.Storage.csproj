@@ -6,7 +6,7 @@
     <NeutralLanguage>en-AT</NeutralLanguage>
     <Authors>Sandjar Berdiev</Authors>
     <Product>Berdiev.Storage</Product>
-    <Version>1.0.0-alpha.1</Version>
+    <Version>1.0.0-alpha.2</Version>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
     <Configurations>Debug;Release;Test</Configurations>
     <CodeAnalysisRuleSet>../../DefaultRuleSet.ruleset</CodeAnalysisRuleSet>
@@ -17,7 +17,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <NoWarn />
-    <DocumentationFile>D:\Development\.Net\Berdiev\Berdiev.Storage\Berdiev.Storage.xml</DocumentationFile>
+    <DocumentationFile>D:\Development\.Net\Berdiev\Berdiev.Storage\Berdiev.Storage</DocumentationFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <OutputPath>D:\Development\.Net\Berdiev\Berdiev.Storage\</OutputPath>
     <WarningLevel>2</WarningLevel>

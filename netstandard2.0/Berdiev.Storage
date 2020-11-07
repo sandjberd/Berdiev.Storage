@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Berdiev.Storage</name>
+    </assembly>
+    <members>
+        <member name="T:Berdiev.Storage.ColumnAttribute">
+            <summary>
+            This is used to mark a column of a table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.ColumnAttribute.ColumnName">
+            <summary>
+            Name of the column.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.ColumnAttribute.#ctor(System.String)">
+            <summary>
+            Instantiates new column attribute.
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.DatabaseType">
+            <summary>
+            Represents database types.
+            </summary>
+        </member>
+        <member name="F:Berdiev.Storage.DatabaseType.SQLite">
+            <summary>
+            SQLite 
+            </summary>
+        </member>
+        <member name="F:Berdiev.Storage.DatabaseType.Postgres">
+            <summary>
+            Postgres
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.Column">
+            <summary>
+            Represents the column of a <see cref="T:Berdiev.Storage.Factory.Table"/>.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Column.ColumnName">
+            <summary>
+            Represents column name.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Column.ColumnType">
+            <summary>
+            Represents column type.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Column.IsPrimaryKey">
+            <summary>
+            Sets the column as primary key.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Column.IsForeignKey">
+            <summary>
+            Sets the column as foreign key.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Column.IsAutoIncrement">
+            <summary>
+            Auto increment for the column. Column must be an INTEGER.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.Column.Default``1(System.String)">
+            <summary>
+            Creates a default column.
+            </summary>
+            <param name="columnName">Name of the column.</param>
+            <typeparam name="T">Type of the column.</typeparam>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.Column.From``1(System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a column with all supported constraints.
+            </summary>
+            <param name="columnName">Name of the column.</param>
+            <param name="primaryKey">Sets the column as primary key.</param>
+            <param name="foreignKey">Sets the column as foreign key.</param>
+            <param name="autoIncrement">Defines the column as autoIncrement.</param>
+            <typeparam name="T">Type of the column.</typeparam>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.ConnectionFactory">
+            <summary>
+            Provides factory for database connections.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.ConnectionFactory.CreateSqLiteConnection(System.String)">
+            <summary>
+            Creates a sql lite connection.
+            </summary>
+            <param name="path">Path of the database.</param>
+            <exception cref="T:System.InvalidOperationException">Throws if the database does not exist.</exception>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.DatabaseFactory">
+            <summary>
+            Provides mechanism for database creations.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.DatabaseFactory.CreateDatabase(Berdiev.Storage.DatabaseType,System.String)">
+            <summary>
+            Creates a database, that can be used for further operations.
+            </summary>
+            <param name="type">Defines which database type should be created.</param>
+            <param name="filePath">Path where the database should be created.</param>
+            <exception cref="T:System.ArgumentException">If the file path is invalid</exception>
+            <exception cref="T:System.InvalidOperationException">If the database already exists</exception>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.Table">
+            <summary>
+            Represents the table of an relational database.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Table.Name">
+            <summary>
+            Name of the database.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.Table.Columns">
+            <summary>
+            Configured columns of the current table
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.Table.#ctor(System.String,System.Collections.Generic.IReadOnlyList{Berdiev.Storage.Factory.Column})">
+            <summary>
+            Instantiates new table.
+            </summary>
+            <param name="name">Name of the table.</param>
+            <param name="columns">Column s of the table.</param>
+        </member>
+        <member name="T:Berdiev.Storage.Factory.TableFactory">
+            <summary>
+            This factory should be used to create relational database tables.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.Factory.TableFactory.CreateTable(Berdiev.Storage.DatabaseType,System.String,Berdiev.Storage.Factory.Table)">
+            <summary>
+            Creates a table of an existing database.
+            </summary>
+            <param name="type">Type of the existing SQL database.</param>
+            <param name="path">Path of the existing database.</param>
+            <param name="table">Table configuration for the table creation.</param>
+            <exception cref="T:System.NotSupportedException">Thrown if the type is not supported.</exception>
+            <exception cref="T:System.NotSupportedException">If the database does not exist.</exception>
+        </member>
+        <member name="T:Berdiev.Storage.IConnectionBridge">
+             <summary>
+             This represents a connection between a database and the domain level.
+             The owner of this has the control of CRUD operations of the desired database.
+            
+             <para>
+             Note that the owner must dispose the instance if it's not needed anymore.
+             </para>
+             
+             <para>
+             Every operation is thread safe. That means that CRUD operations are executed sequentially of different threads.
+             </para>
+             </summary>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetAll``1">
+            <summary>
+            Gets all records of a table. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetAllAsync``1">
+            <summary>
+            Gets all records of a table in async way. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.SelectRecords``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Selects specific records that are filtered by a 'where clause'. (SELECT * FROM [TABLE-NAME] WHERE ...;)
+            </summary>
+            <param name="whereClauses">Where clauses for filtering the records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>Filtered records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.SelectRecordsAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Selects specific records that are filtered by a 'where clause' in async way. (SELECT * FROM [TABLE-NAME] WHERE ...;)
+            </summary>
+            <param name="whereClauses">Where clauses for filtering the records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>Filtered records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Update``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.ColumnToUpdate},System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Updates specific columns of a table. (UPDATE [TABLE-NAME] SET [columns] = [columnValues] WHERE ...;)
+            </summary>
+            <param name="columnsToUpdate">Defines column names and column values. These values represents the future values of the table.</param>
+            <param name="whereClauses">Where clauses for updating the values.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if the update was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.UpdateAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.ColumnToUpdate},System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Updates specific columns of a table in async way. (UPDATE [TABLE-NAME] SET [columns] = [columnValues] WHERE ...;)
+            </summary>
+            <param name="columnsToUpdate">Defines column names and column values. These values represents the future values of the table.</param>
+            <param name="whereClauses">Where clauses for updating the values.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if the update was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Insert``1(``0)">
+            <summary>
+            Inserts an item into table.
+            </summary>
+            <param name="item">Item to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertAsync``1(``0)">
+            <summary>
+            Inserts an item into table in async way.
+            </summary>
+            <param name="item">Item to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertMany``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts many items into table.
+            </summary>
+            <param name="items">Items to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.InsertManyAsync``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts many items into table in async way.
+            </summary>
+            <param name="items">Items to insert in the table.</param>
+            <typeparam name="T">The type represents the table.</typeparam>
+            <returns>True, if insertion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Delete``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Deletes records of a specific table. (DELETE FROM [TABLE-NAME] WHERE ....;)
+            </summary>
+            <param name="whereClauses">Where clauses for deleting records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if deletion was successful, otherwise false.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.DeleteAsync``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Deletes records of a specific table in async way. (DELETE FROM [TABLE-NAME] WHERE ....;)
+            </summary>
+            <param name="whereClauses">Where clauses for deleting records.</param>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>True, if deletion was successful, otherwise false.</returns>
+        </member>
+        <member name="T:Berdiev.Storage.SqlStatements.ColumnToUpdate">
+            <summary>
+            This represents a column of a specific table for update.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.SqlStatements.ColumnToUpdate.#ctor(System.String,System.Object)">
+            <summary>
+            Instantiates new column.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.ColumnToUpdate.ColumnName">
+            <summary>
+            Column name of the table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.ColumnToUpdate.Value">
+            <summary>
+            The new value that is used to update.
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.SqlStatements.WhereClause">
+            <summary>
+            This is used as standard SQL where clause for basic CRUD operations.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.SqlStatements.WhereClause.#ctor(System.String,System.Object)">
+            <summary>
+            Instantiates the where clause.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnName">
+            <summary>
+            Column name of the table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnType">
+            <summary>
+            The table column type.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnValue">
+            <summary>
+            The value of the table column.
+            </summary>
+        </member>
+        <member name="T:Berdiev.Storage.TableAttribute">
+            <summary>
+            This attribute is used to mark a table.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.TableAttribute.TableName">
+            <summary>
+            Represents the table name.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.TableAttribute.#ctor(System.String)">
+            <summary>
+            Instantiates new attribute.
+            </summary>
+        </member>
+    </members>
+</doc>
