@@ -35,9 +35,9 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
+            var tableName = _GetTableName<T>();
 
-            var sql = $"SELECT * FROM {typeof(T).Name};";
+            var sql = $"SELECT * FROM {tableName};";
 
             var result = _connection.Query<T>(sql);
             
@@ -50,9 +50,9 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
+            var tableName = _GetTableName<T>();
 
-            var sql = $"SELECT * FROM {typeof(T).Name};";
+            var sql = $"SELECT * FROM {tableName};";
 
             var result = await _connection.QueryAsync<T>(sql).ConfigureAwait(false);
 
@@ -65,11 +65,11 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
+            var tableName = _GetTableName<T>();
 
             var sqlWhereClause = _CreateWhereSqlStatement(whereClauses);
 
-            var sql = $"SELECT * FROM {typeof(T).Name} {sqlWhereClause};";
+            var sql = $"SELECT * FROM {tableName} {sqlWhereClause};";
 
             var whereClausesObject = _CreateObjectForWhereClauses(whereClauses);
 
@@ -84,11 +84,11 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
+            var tableName = _GetTableName<T>();
 
             var sqlWhereClause = _CreateWhereSqlStatement(whereClauses);
 
-            var sql = $"SELECT * FROM {typeof(T).Name} {sqlWhereClause};";
+            var sql = $"SELECT * FROM {tableName} {sqlWhereClause};";
 
             var whereClausesObject = _CreateObjectForWhereClauses(whereClauses);
 
@@ -133,8 +133,6 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
-
             var sql = _CreateInsertSqlStatement<T>();
             var objectToInsert = _CreateObjectForInsert(item);
 
@@ -153,8 +151,6 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
-
             var sql = _CreateInsertSqlStatement<T>();
             var objectToInsert = _CreateObjectForInsert(item);
 
@@ -171,8 +167,6 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
-
             var sql = _CreateInsertSqlStatement<T>();
 
             var cmdDefinition = new CommandDefinition(sql, items);
@@ -188,8 +182,6 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
-
             var sql = _CreateInsertSqlStatement<T>();
 
             var cmdDefinition = new CommandDefinition(sql, items);
@@ -204,8 +196,6 @@ namespace Berdiev.Storage.ConnectionBridge
         public bool Delete<T>(IReadOnlyList<WhereClause> whereClauses)
         {
             Monitor.Enter(_lock);
-
-            _VerifyClassAsTable<T>();
 
             var sql = _CreateDeleteSqlStatement<T>(whereClauses);
 
@@ -224,8 +214,6 @@ namespace Berdiev.Storage.ConnectionBridge
         {
             Monitor.Enter(_lock);
 
-            _VerifyClassAsTable<T>();
-
             var sql = _CreateDeleteSqlStatement<T>(whereClauses);
 
             var whereObject = _CreateObjectForWhereClauses(whereClauses);
@@ -239,15 +227,17 @@ namespace Berdiev.Storage.ConnectionBridge
             return affectedRows > 0;
         }
 
-        private static void _VerifyClassAsTable<T>()
+        private string _GetTableName<T>()
         {
             var tableAttribute = typeof(T).GetOneAttribute<TableAttribute>();
 
             if (tableAttribute == null)
                 throw new ArgumentException($"{nameof(T)} must contain {nameof(TableAttribute)}");
+
+            return tableAttribute.TableName;
         }
 
-        private static object _CreateObjectForUpdate<T>(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses)
+        private object _CreateObjectForUpdate<T>(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses)
         {
             var objectMappings = new Dictionary<string, object>();
 
@@ -264,7 +254,7 @@ namespace Berdiev.Storage.ConnectionBridge
             return new DynamicParameters(objectMappings);
         }
 
-        private static object _CreateObjectForWhereClauses(IReadOnlyList<WhereClause> whereClauses)
+        private object _CreateObjectForWhereClauses(IReadOnlyList<WhereClause> whereClauses)
         {
             var objectMappings = new Dictionary<string, object>();
 
@@ -276,8 +266,10 @@ namespace Berdiev.Storage.ConnectionBridge
             return new DynamicParameters(objectMappings);
         }
 
-        private static string _CreateInsertSqlStatement<T>()
+        private string _CreateInsertSqlStatement<T>()
         {
+            var tableName = _GetTableName<T>();
+
             var columnDescriptions = _GetColumnDescriptions(typeof(T));
 
             var columnNameBuilder = new StringBuilder();
@@ -303,26 +295,29 @@ namespace Berdiev.Storage.ConnectionBridge
             var columnNames = columnNameBuilder.ToString();
             var columnValues = columnValueBuilder.ToString();
 
-            var sql = $"INSERT INTO {typeof(T).Name} {columnNames} VALUES {columnValues};";
+            var sql = $"INSERT INTO {tableName} {columnNames} VALUES {columnValues};";
             return sql;
         }
 
-        private static string _CreateDeleteSqlStatement<T>(IReadOnlyList<WhereClause> whereClauses)
+        private string _CreateDeleteSqlStatement<T>(IReadOnlyList<WhereClause> whereClauses)
         {
-            var sql = $"DELETE FROM {typeof(T).Name};";
+            var tableName = _GetTableName<T>();
+
+            var sql = $"DELETE FROM {tableName};";
 
             if (whereClauses.Any())
             {
                 var whereClausesSql = _CreateWhereSqlStatement(whereClauses);
-                sql = $"DELETE FROM {typeof(T).Name} {whereClausesSql};";
+                sql = $"DELETE FROM {tableName} {whereClausesSql};";
             }
 
             return sql;
         }
 
-        private static string _CreateUpdateSqlStatement<T>(IReadOnlyList<ColumnToUpdate> columnToUpdates, IReadOnlyList<WhereClause> whereClauses)
+        private string _CreateUpdateSqlStatement<T>(IReadOnlyList<ColumnToUpdate> columnToUpdates, IReadOnlyList<WhereClause> whereClauses)
         {
             var updateSetDefinition = new StringBuilder();
+            var tableName = _GetTableName<T>();
 
             var prefix = string.Empty;
             foreach (var columnDescription in columnToUpdates)
@@ -337,18 +332,18 @@ namespace Berdiev.Storage.ConnectionBridge
                 prefix = ", ";
             }
 
-            var sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition};";
+            var sql = $"UPDATE {tableName} SET {updateSetDefinition};";
 
             if (whereClauses.Any())
             {
                 var whereClausesSql = _CreateWhereSqlStatement(whereClauses);
-                sql = $"UPDATE {typeof(T).Name} SET {updateSetDefinition} {whereClausesSql};";
+                sql = $"UPDATE {tableName} SET {updateSetDefinition} {whereClausesSql};";
             }
 
             return sql;
         }
 
-        private static string _CreateWhereSqlStatement(IReadOnlyList<WhereClause> whereClauses)
+        private string _CreateWhereSqlStatement(IReadOnlyList<WhereClause> whereClauses)
         {
             if (!whereClauses.Any())
                 return string.Empty;
@@ -372,7 +367,7 @@ namespace Berdiev.Storage.ConnectionBridge
             return whereClauseBuilder.ToString();
         }
 
-        private static IReadOnlyList<ColumnDescription> _GetColumnDescriptions(Type type)
+        private IReadOnlyList<ColumnDescription> _GetColumnDescriptions(Type type)
         {
             var columnDescriptions = new List<ColumnDescription>();
 

@@ -6,7 +6,7 @@
     <NeutralLanguage>en-AT</NeutralLanguage>
     <Authors>Sandjar Berdiev</Authors>
     <Product>Berdiev.Storage</Product>
-    <Version>1.0.0-alpha.2</Version>
+    <Version>1.0.0-alpha.3</Version>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
     <Configurations>Debug;Release;Test</Configurations>
     <CodeAnalysisRuleSet>../../DefaultRuleSet.ruleset</CodeAnalysisRuleSet>
