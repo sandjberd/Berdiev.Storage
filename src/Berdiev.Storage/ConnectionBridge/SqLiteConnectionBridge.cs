@@ -105,7 +105,7 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var sql = _CreateUpdateSqlStatement<T>(columnsToUpdate, whereClauses);
 
-            var t = _CreateObjectForUpdate<T>(columnsToUpdate, whereClauses);
+            var t = _CreateObjectForUpdate(columnsToUpdate, whereClauses);
 
             var rowsAffected = _connection.Execute(sql, t);
 
@@ -120,7 +120,7 @@ namespace Berdiev.Storage.ConnectionBridge
 
             var sql = _CreateUpdateSqlStatement<T>(columnsToUpdate, whereClauses);
 
-            var t = _CreateObjectForUpdate<T>(columnsToUpdate, whereClauses);
+            var t = _CreateObjectForUpdate(columnsToUpdate, whereClauses);
 
             await _connection.ExecuteAsync(sql, t).ConfigureAwait(false);
 
@@ -240,7 +240,7 @@ namespace Berdiev.Storage.ConnectionBridge
             return tableAttribute.TableName;
         }
 
-        private object _CreateObjectForUpdate<T>(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses)
+        private object _CreateObjectForUpdate(IReadOnlyList<ColumnToUpdate> columnsToUpdate, IReadOnlyList<WhereClause> whereClauses)
         {
             var objectMappings = new Dictionary<string, object>();
 

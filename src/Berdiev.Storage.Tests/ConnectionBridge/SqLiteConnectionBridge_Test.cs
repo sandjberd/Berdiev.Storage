@@ -27,7 +27,7 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
 
             var columns = new List<Column>();
 
-            var id = Column.From<int>("Id", true, false, true);
+            var id = Column.From<int>("Id", ColumnConstraint.PrimaryKeyNotNull().AsAutoIncrement());
             var name = Column.Default<String>("Name");
             var birthday = Column.Default<DateTime>("Birthday");
             var data = Column.Default<String>("Data");

@@ -23,6 +23,12 @@
     <WarningLevel>2</WarningLevel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Compile Include="ColumnAttribute.cs" />
     <Compile Include="ConnectionBridge\SqLiteConnectionBridge.cs" />
@@ -39,12 +45,15 @@
     <Compile Include="SqlStatements\ColumnToUpdate.cs" />
     <Compile Include="SqlStatements\WhereClause.cs" />
     <Compile Include="TableAttribute.cs" />
+    <Compile Include="Factory\ColumnConstraint.cs" />
+    <Compile Include="Factory\ColumnToSqlConverter.cs" />
+    <Compile Include="Factory\ForeignKeyReference.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="FluentMigrator" Version="3.2.9" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

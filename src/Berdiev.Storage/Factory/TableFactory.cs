@@ -7,7 +7,7 @@ namespace Berdiev.Storage.Factory
     /// <summary>
     /// This factory should be used to create relational database tables.
     /// </summary>
-    public class TableFactory
+    public static class TableFactory
     {
         /// <summary>
         /// Creates a table of an existing database.

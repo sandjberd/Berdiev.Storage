@@ -5,65 +5,55 @@ using System;
 namespace Berdiev.Storage.Factory
 {
     /// <summary>
-    /// Represents the column of a <see cref="Table"/>.
+    /// Represents the foreignKEyReference of a <see cref="Table"/>.
     /// </summary>
     public class Column
     {
-        internal Column(string columnName, Type columnType, bool isPrimaryKey, bool isForeignKey, bool isAutoIncrement)
+        internal Column(string columnName, Type columnType, ColumnConstraint columnConstraint, ForeignKeyReference foreignKey)
         {
             ColumnName = columnName;
             ColumnType = columnType;
-            IsPrimaryKey = isPrimaryKey;
-            IsForeignKey = isForeignKey;
-            IsAutoIncrement = isAutoIncrement;
+            ColumnConstraint = columnConstraint;
+            ForeignKey = foreignKey;
         }
 
         /// <summary>
-        /// Represents column name.
+        /// Represents foreignKEyReference name.
         /// </summary>
         public String ColumnName { get; }
 
         /// <summary>
-        /// Represents column type.
+        /// Represents foreignKEyReference type.
         /// </summary>
         public Type ColumnType { get; }
+        
+        public ColumnConstraint ColumnConstraint { get; }
+
+        public ForeignKeyReference ForeignKey { get; }
 
         /// <summary>
-        /// Sets the column as primary key.
+        /// Creates a default foreignKEyReference.
         /// </summary>
-        public Boolean IsPrimaryKey { get; }
-
-        /// <summary>
-        /// Sets the column as foreign key.
-        /// </summary>
-        public Boolean IsForeignKey { get; }
-
-        /// <summary>
-        /// Auto increment for the column. Column must be an INTEGER.
-        /// </summary>
-        public Boolean IsAutoIncrement { get; }
-
-        /// <summary>
-        /// Creates a default column.
-        /// </summary>
-        /// <param name="columnName">Name of the column.</param>
-        /// <typeparam name="T">Type of the column.</typeparam>
+        /// <param name="columnName">Name of the foreignKEyReference.</param>
+        /// <typeparam name="T">Type of the foreignKEyReference.</typeparam>
         public static Column Default<T>(string columnName)
         {
-            return new Column(columnName, typeof(T), false, false, false);
+            return new Column(columnName, typeof(T), ColumnConstraint.Default(), null);
         }
 
         /// <summary>
-        /// Creates a column with all supported constraints.
+        /// Creates a foreignKEyReference with all supported constraints.
         /// </summary>
-        /// <param name="columnName">Name of the column.</param>
-        /// <param name="primaryKey">Sets the column as primary key.</param>
-        /// <param name="foreignKey">Sets the column as foreign key.</param>
-        /// <param name="autoIncrement">Defines the column as autoIncrement.</param>
-        /// <typeparam name="T">Type of the column.</typeparam>
-        public static Column From<T>(string columnName, bool primaryKey, bool foreignKey, bool autoIncrement)
+        /// <param name="columnName">Name of the foreignKEyReference.</param>
+        /// <typeparam name="T">Type of the foreignKEyReference.</typeparam>
+        public static Column From<T>(string columnName, ColumnConstraint constraint)
         {
-            return new Column(columnName, typeof(T), primaryKey, foreignKey, autoIncrement);
+            return new Column(columnName, typeof(T), constraint, null);
+        }
+
+        public static Column FromForeignKey<T>(string columnName, ColumnConstraint constraint, ForeignKeyReference foreignKeyReference)
+        {
+            return new Column(columnName, typeof(T), constraint, foreignKeyReference);
         }
     }
 }

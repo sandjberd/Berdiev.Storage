@@ -32,11 +32,11 @@ namespace Berdiev.Storage.Tests
         [Test]
         public void CanCreateTable()
         {
-            var id = Column.From<int>("Id", true, false, true);
+            var id = Column.From<int>("Id", ColumnConstraint.PrimaryKey());
             var name = Column.Default<string>("Name");
             var birthDate = Column.Default<DateTime>("Börsday");
             var money = Column.Default<double>("Moneyyyyy");
-            var complex = Column.Default<ComplexThing>("Foool");
+            var complex = Column.From<ComplexThing>("Foool", ColumnConstraint.Default().AsNotNull().AsUnique());
 
             var table = new Table("TestTable", new List<Column>
             {

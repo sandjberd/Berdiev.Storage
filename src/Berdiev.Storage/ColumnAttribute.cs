@@ -8,7 +8,7 @@ namespace Berdiev.Storage
     /// This is used to mark a column of a table.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class ColumnAttribute : Attribute
+    public sealed class ColumnAttribute : Attribute
     {
         /// <summary>
         /// Name of the column.

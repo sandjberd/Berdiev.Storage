@@ -10,7 +10,7 @@ namespace Berdiev.Storage.Factory
     /// <summary>
     /// Provides factory for database connections.
     /// </summary>
-    public class ConnectionFactory
+    public static class ConnectionFactory
     {
         /// <summary>
         /// Creates a sql lite connection.
@@ -35,7 +35,7 @@ namespace Berdiev.Storage.Factory
                 throw new InvalidOperationException($"Database '{path}' does not exist!");
 
             var connectionString = "Data Source=" + path;
-
+            
             var sqlConnection = new SQLiteConnection(connectionString);
 
             return new SqLiteConnectionBridge(sqlConnection);

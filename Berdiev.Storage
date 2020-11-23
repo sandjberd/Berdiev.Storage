@@ -36,50 +36,32 @@
         </member>
         <member name="T:Berdiev.Storage.Factory.Column">
             <summary>
-            Represents the column of a <see cref="T:Berdiev.Storage.Factory.Table"/>.
+            Represents the foreignKEyReference of a <see cref="T:Berdiev.Storage.Factory.Table"/>.
             </summary>
         </member>
         <member name="P:Berdiev.Storage.Factory.Column.ColumnName">
             <summary>
-            Represents column name.
+            Represents foreignKEyReference name.
             </summary>
         </member>
         <member name="P:Berdiev.Storage.Factory.Column.ColumnType">
             <summary>
-            Represents column type.
-            </summary>
-        </member>
-        <member name="P:Berdiev.Storage.Factory.Column.IsPrimaryKey">
-            <summary>
-            Sets the column as primary key.
-            </summary>
-        </member>
-        <member name="P:Berdiev.Storage.Factory.Column.IsForeignKey">
-            <summary>
-            Sets the column as foreign key.
-            </summary>
-        </member>
-        <member name="P:Berdiev.Storage.Factory.Column.IsAutoIncrement">
-            <summary>
-            Auto increment for the column. Column must be an INTEGER.
+            Represents foreignKEyReference type.
             </summary>
         </member>
         <member name="M:Berdiev.Storage.Factory.Column.Default``1(System.String)">
             <summary>
-            Creates a default column.
+            Creates a default foreignKEyReference.
             </summary>
-            <param name="columnName">Name of the column.</param>
-            <typeparam name="T">Type of the column.</typeparam>
+            <param name="columnName">Name of the foreignKEyReference.</param>
+            <typeparam name="T">Type of the foreignKEyReference.</typeparam>
         </member>
-        <member name="M:Berdiev.Storage.Factory.Column.From``1(System.String,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:Berdiev.Storage.Factory.Column.From``1(System.String,Berdiev.Storage.Factory.ColumnConstraint)">
             <summary>
-            Creates a column with all supported constraints.
+            Creates a foreignKEyReference with all supported constraints.
             </summary>
-            <param name="columnName">Name of the column.</param>
-            <param name="primaryKey">Sets the column as primary key.</param>
-            <param name="foreignKey">Sets the column as foreign key.</param>
-            <param name="autoIncrement">Defines the column as autoIncrement.</param>
-            <typeparam name="T">Type of the column.</typeparam>
+            <param name="columnName">Name of the foreignKEyReference.</param>
+            <typeparam name="T">Type of the foreignKEyReference.</typeparam>
         </member>
         <member name="T:Berdiev.Storage.Factory.ConnectionFactory">
             <summary>
@@ -143,6 +125,26 @@
             <param name="table">Table configuration for the table creation.</param>
             <exception cref="T:System.NotSupportedException">Thrown if the type is not supported.</exception>
             <exception cref="T:System.NotSupportedException">If the database does not exist.</exception>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.ColumnConstraint.IsPrimaryKey">
+            <summary>
+            Sets the column as primary key.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.ColumnConstraint.IsNotNull">
+            <summary>
+            Sets the column as not null constraint.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.ColumnConstraint.IsUnique">
+            <summary>
+            Sets the column as isUnique constraint.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.Factory.ColumnConstraint.IsAutoIncrement">
+            <summary>
+            Auto increment for the column. Column must be an INTEGER.
+            </summary>
         </member>
         <member name="T:Berdiev.Storage.IConnectionBridge">
              <summary>

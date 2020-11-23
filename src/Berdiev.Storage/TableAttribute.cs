@@ -8,7 +8,7 @@ namespace Berdiev.Storage
     /// This attribute is used to mark a table.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class TableAttribute : Attribute
+    public sealed class TableAttribute : Attribute
     {
         /// <summary>
         /// Represents the table name.
