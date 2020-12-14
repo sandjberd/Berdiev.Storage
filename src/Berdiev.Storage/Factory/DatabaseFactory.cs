@@ -7,7 +7,7 @@ namespace Berdiev.Storage.Factory
     /// <summary>
     /// Provides mechanism for database creations.
     /// </summary>
-    public class DatabaseFactory
+    public static class DatabaseFactory
     {
         /// <summary>
         /// Creates a database, that can be used for further operations.
