@@ -59,7 +59,39 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             var res = connection.Insert(p1);
             Assert.IsTrue(res);
         }
-        
+
+        [Test]
+        public void CanCommitTransaction()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var p1 = new Person { Name = "Hugo", Buruthday = DateTime.UtcNow };
+
+            connection.BeginTransaction();
+
+            var res = connection.Insert(p1);
+
+            connection.CommitTransaction();
+
+            Assert.IsTrue(res);
+        }
+
+        [Test]
+        public void CanRollbackTransaction()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var p1 = new Person { Name = "Hugo", Buruthday = DateTime.UtcNow };
+
+            connection.BeginTransaction();
+
+            var res = connection.Insert(p1);
+
+            connection.RollbackTransaction();
+
+            Assert.IsTrue(res);
+        }
+
         [Test]
         public async Task CanInsertAsync()
         {

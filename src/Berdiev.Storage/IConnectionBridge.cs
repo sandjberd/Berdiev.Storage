@@ -22,6 +22,21 @@ namespace Berdiev.Storage
     public interface IConnectionBridge : IDisposable
     {
         /// <summary>
+        /// Begins a transaction.
+        /// </summary>
+        void BeginTransaction();
+
+        /// <summary>
+        /// Commits a current transaction.
+        /// </summary>
+        void CommitTransaction();
+
+        /// <summary>
+        /// Rollbacks a current transaction.
+        /// </summary>
+        void RollbackTransaction();
+
+        /// <summary>
         /// Gets all records of a table. (SELECT * FROM [TABLE-NAME];)
         /// </summary>
         /// <typeparam name="T">Type of the table. This must contain the <see cref="TableAttribute"/>.</typeparam>

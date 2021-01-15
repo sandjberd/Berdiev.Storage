@@ -13,6 +13,7 @@
     <Description>This package is used to persist data in different database types.</Description>
     <SignAssembly>false</SignAssembly>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,7 +24,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <OutputPath>D:\Development\.Net\Berdiev\Berdiev.Storage\</OutputPath>
     <WarningLevel>2</WarningLevel>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

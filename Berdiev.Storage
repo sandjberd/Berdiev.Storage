@@ -160,6 +160,21 @@
              </para>
              </summary>
         </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.BeginTransaction">
+            <summary>
+            Begins a transaction.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.CommitTransaction">
+            <summary>
+            Commits a current transaction.
+            </summary>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.RollbackTransaction">
+            <summary>
+            Rollbacks a current transaction.
+            </summary>
+        </member>
         <member name="M:Berdiev.Storage.IConnectionBridge.GetAll``1">
             <summary>
             Gets all records of a table. (SELECT * FROM [TABLE-NAME];)

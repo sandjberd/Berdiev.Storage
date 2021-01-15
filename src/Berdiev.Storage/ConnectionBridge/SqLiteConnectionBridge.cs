@@ -19,6 +19,7 @@ namespace Berdiev.Storage.ConnectionBridge
         private const string ColumnNameWhereClausePostfix = "WhereToUpdate";
 
         private readonly object _lock;
+        private SQLiteTransaction _transaction = default;
 
         public SqLiteConnectionBridge(SQLiteConnection connection)
         {
@@ -29,6 +30,30 @@ namespace Berdiev.Storage.ConnectionBridge
         public void Dispose()
         {
             _connection.Dispose();
+        }
+
+        public void BeginTransaction()
+        {
+            _connection.Open();
+            _transaction = _connection.BeginTransaction();
+        }
+
+        public void CommitTransaction()
+        {
+            if (_transaction == default)
+                return;
+
+            _transaction.Commit();
+            _connection.Close();
+        }
+
+        public void RollbackTransaction()
+        {
+            if (_transaction == default)
+                return;
+
+            _transaction.Rollback();
+            _connection.Close();
         }
 
         public IEnumerable<T> GetAll<T>()
