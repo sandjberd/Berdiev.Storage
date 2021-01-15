@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Berdiev.Storage/1.0.0-alpha.6": {
+      "Berdiev.Storage/1.0.0-alpha.7": {
         "dependencies": {
           "Dapper": "2.0.78",
           "FluentMigrator": "3.2.9",
@@ -172,7 +172,7 @@
     }
   },
   "libraries": {
-    "Berdiev.Storage/1.0.0-alpha.6": {
+    "Berdiev.Storage/1.0.0-alpha.7": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
