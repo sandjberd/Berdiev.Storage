@@ -17,16 +17,6 @@ namespace Berdiev.Storage.Factory
 
             _ConvertConstraints(column, stringBuilder);
 
-            if (column.ForeignKey != null)
-            {
-                stringBuilder
-                    .Append(", ")
-                    .Append($"FOREIGN KEY ({column.ColumnName}) ")
-                    .Append("REFERENCES ")
-                    .Append(column.ForeignKey.ReferenceTableName)
-                    .Append($" ({column.ForeignKey.ReferenceColumnName})");
-            }
-
             return stringBuilder.ToString();
         }
 

@@ -1,5 +1,6 @@
 ﻿//Copyright by Sandjar Berdiev
 
+using System.Linq;
 using System.Text;
 
 namespace Berdiev.Storage.Factory
@@ -22,6 +23,18 @@ namespace Berdiev.Storage.Factory
                 stringBuilder.Append(prefix);
                 stringBuilder.Append(tableColumn.ToSql());
                 prefix = ", ";
+            }
+
+            var foreignKeyColumns = table.Columns.Where(x => x.ForeignKey != null);
+
+            foreach (var foreignKeyColumn in foreignKeyColumns)
+            {
+                stringBuilder
+                    .Append(", ")
+                    .Append($"FOREIGN KEY ({foreignKeyColumn.ColumnName}) ")
+                    .Append("REFERENCES ")
+                    .Append(foreignKeyColumn.ForeignKey.ReferenceTableName)
+                    .Append($" ({foreignKeyColumn.ForeignKey.ReferenceColumnName})");
             }
 
             return stringBuilder.Append(");").ToString();
