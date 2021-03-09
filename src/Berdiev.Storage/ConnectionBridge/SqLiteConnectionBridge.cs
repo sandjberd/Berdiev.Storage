@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Berdiev.Storage.Factory;
 using Berdiev.Storage.SqlStatements;
 using Dapper;
 using FluentMigrator.Infrastructure.Extensions;
@@ -84,6 +85,64 @@ namespace Berdiev.Storage.ConnectionBridge
             Monitor.Exit(_lock);
 
             return result;
+        }
+
+        public IEnumerable<T> Get<T>(Paging paging, OrderByClause orderByClause, IReadOnlyList<WhereClause> whereClauses)
+        {
+            Monitor.Enter(_lock);
+
+            var tableName = _GetTableName<T>();
+
+            var sqlWhereClause = _CreateWhereSqlStatement(whereClauses);
+            var sqlOrderByClause = _CreateOrderBySqlStatement(orderByClause);
+            
+            var sql = $"SELECT * FROM {tableName} {sqlWhereClause} {sqlOrderByClause} LIMIT {paging.Limit} OFFSET {paging.Offset};";
+
+            var whereClausesObject = _CreateObjectForWhereClauses(whereClauses);
+
+            var query = _connection.Query<T>(sql, whereClausesObject);
+
+            Monitor.Exit(_lock);
+
+            return query;
+        }
+
+        public async Task<IEnumerable<T>> GetAsync<T>(Paging paging, OrderByClause orderByClause, IReadOnlyList<WhereClause> whereClauses)
+        {
+            Monitor.Enter(_lock);
+
+            var tableName = _GetTableName<T>();
+
+            var sqlWhereClause = _CreateWhereSqlStatement(whereClauses);
+            var sqlOrderByClause = _CreateOrderBySqlStatement(orderByClause);
+
+            var sql = $"SELECT * FROM {tableName} {sqlWhereClause} {sqlOrderByClause} LIMIT {paging.Limit} OFFSET {paging.Offset};";
+
+            var whereClausesObject = _CreateObjectForWhereClauses(whereClauses);
+
+            var query = await _connection.QueryAsync<T>(sql, whereClausesObject);
+
+            Monitor.Exit(_lock);
+
+            return query;
+        }
+
+        public int GetRowCount<T>(IReadOnlyList<WhereClause> whereClauses)
+        {
+            Monitor.Enter(_lock);
+
+            var tableName = _GetTableName<T>();
+            var sqlWhereClause = _CreateWhereSqlStatement(whereClauses);
+
+            var sql = $"SELECT COUNT(*) FROM {tableName} {sqlWhereClause};";
+
+            var whereClausesObject = _CreateObjectForWhereClauses(whereClauses);
+
+            var query = _connection.QueryFirst<int>(sql, whereClausesObject);
+
+            Monitor.Exit(_lock);
+
+            return query;
         }
 
         public IEnumerable<T> SelectRecords<T>(IReadOnlyList<WhereClause> whereClauses)
@@ -385,7 +444,7 @@ namespace Berdiev.Storage.ConnectionBridge
                 whereClauseBuilder
                     .Append(prefix)
                     .Append(whereClause.ColumnName)
-                    .Append(" = ")
+                    .Append(whereClause.SqlOperator.ToSqlString())
                     .Append('@')
                     .Append(whereClause.ColumnName).Append(ColumnNameWhereClausePostfix);
 
@@ -393,6 +452,29 @@ namespace Berdiev.Storage.ConnectionBridge
             }
 
             return whereClauseBuilder.ToString();
+        }
+
+        private string _CreateOrderBySqlStatement(OrderByClause clause)
+        {
+            var clauseBuilder = new StringBuilder();
+
+            if (!clause.OrderByColumns.Any())
+                return string.Empty;
+
+            clauseBuilder.Append("ORDER BY ");
+            var prefix = string.Empty;
+            foreach (var clauseOrderByColumn in clause.OrderByColumns)
+            {
+                clauseBuilder
+                    .Append(prefix)
+                    .Append(clauseOrderByColumn);
+
+                prefix = ", ";
+            }
+
+            clauseBuilder.Append(clause.Desc ? " DESC" : " ASC");
+
+            return clauseBuilder.ToString();
         }
 
         private IReadOnlyList<ColumnDescription> _GetColumnDescriptions(Type type)

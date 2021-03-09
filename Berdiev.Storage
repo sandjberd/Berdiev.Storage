@@ -189,6 +189,27 @@
             <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
             <returns>All records of the table.</returns>
         </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.Get``1(Berdiev.Storage.SqlStatements.Paging,Berdiev.Storage.SqlStatements.OrderByClause,System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Gets all limited records of a table. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All limited records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetAsync``1(Berdiev.Storage.SqlStatements.Paging,Berdiev.Storage.SqlStatements.OrderByClause,System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Gets all limited records of a table. (SELECT * FROM [TABLE-NAME];)
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>All limited records of the table.</returns>
+        </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.GetRowCount``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
+            <summary>
+            Counts rows of the table.
+            </summary>
+            <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
+            <returns>Number of rows.</returns>
+        </member>
         <member name="M:Berdiev.Storage.IConnectionBridge.SelectRecords``1(System.Collections.Generic.IReadOnlyList{Berdiev.Storage.SqlStatements.WhereClause})">
             <summary>
             Selects specific records that are filtered by a 'where clause'. (SELECT * FROM [TABLE-NAME] WHERE ...;)
@@ -301,6 +322,11 @@
             Instantiates the where clause.
             </summary>
         </member>
+        <member name="M:Berdiev.Storage.SqlStatements.WhereClause.#ctor(System.String,System.Object,Berdiev.Storage.SqlStatements.SqlOperator)">
+            <summary>
+            Instantiates the where clause.
+            </summary>
+        </member>
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnName">
             <summary>
             Column name of the table.
@@ -314,6 +340,11 @@
         <member name="P:Berdiev.Storage.SqlStatements.WhereClause.ColumnValue">
             <summary>
             The value of the table column.
+            </summary>
+        </member>
+        <member name="P:Berdiev.Storage.SqlStatements.WhereClause.SqlOperator">
+            <summary>
+            Operator of the sql where clause for values.
             </summary>
         </member>
         <member name="T:Berdiev.Storage.TableAttribute">

@@ -55,6 +55,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="SqlStatements\OrderByClause.cs" />
+    <Compile Include="SqlStatements\Paging.cs" />
+    <Compile Include="SqlStatements\SqlOperator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FluentMigrator" Version="3.2.9" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.1">

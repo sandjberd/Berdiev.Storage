@@ -163,6 +163,71 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
         }
 
         [Test]
+        public void CanGetPaging()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var orderbyClause = new OrderByClause(new List<string> {
+                "Name"
+            });
+
+            var returnedPersons = connection.Get<Person>(new Paging(3, 4), orderbyClause, new List<WhereClause>()).ToList();
+
+            Assert.AreEqual(3, returnedPersons.Count);
+            Assert.AreEqual("foo 5", returnedPersons.First().Name);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public async Task CanGetPagingAsync()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            var insertManyRes = connection.InsertMany(persons);
+
+            var orderbyClause = new OrderByClause(new List<string> {
+                "Name"
+            });
+
+            var returnedPersons =
+                (await connection.GetAsync<Person>(new Paging(3, 4), orderbyClause, new List<WhereClause>())).ToList();
+
+            Assert.AreEqual(3, returnedPersons.Count);
+            Assert.AreEqual("foo 5", returnedPersons.First().Name);
+            Assert.IsTrue(insertManyRes);
+        }
+
+        [Test]
+        public void CanGetCount()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var persons = _CreateManyPersons(30);
+
+            connection.InsertMany(persons);
+
+            var count30 = connection.GetRowCount<Person>(new List<WhereClause>());
+
+            var count25 = connection.GetRowCount<Person>(new List<WhereClause> {
+                new WhereClause("Id", 5, SqlOperator.GreaterThan)
+            });
+
+            var count26 = connection.GetRowCount<Person>(new List<WhereClause> {
+                new WhereClause("Id", 5, SqlOperator.GreaterEqual)
+            });
+
+            Assert.AreEqual(30, count30);
+            Assert.AreEqual(25, count25);
+            Assert.AreEqual(26, count26);
+        }
+
+        [Test]
         public void CanSelect()
         {
             var connection = ConnectionFactory.CreateSqLite(_path);

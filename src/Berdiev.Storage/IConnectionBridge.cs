@@ -51,6 +51,27 @@ namespace Berdiev.Storage
         Task<IEnumerable<T>> GetAllAsync<T>();
 
         /// <summary>
+        /// Gets all limited records of a table. (SELECT * FROM [TABLE-NAME];)
+        /// </summary>
+        /// <typeparam name="T">Type of the table. This must contain the <see cref="TableAttribute"/>.</typeparam>
+        /// <returns>All limited records of the table.</returns>
+        IEnumerable<T> Get<T>(Paging paging, OrderByClause orderByClause, IReadOnlyList<WhereClause> whereClauses);
+
+        /// <summary>
+        /// Gets all limited records of a table. (SELECT * FROM [TABLE-NAME];)
+        /// </summary>
+        /// <typeparam name="T">Type of the table. This must contain the <see cref="TableAttribute"/>.</typeparam>
+        /// <returns>All limited records of the table.</returns>
+        Task<IEnumerable<T>> GetAsync<T>(Paging paging, OrderByClause orderByClause, IReadOnlyList<WhereClause> whereClauses);
+
+        /// <summary>
+        /// Counts rows of the table.
+        /// </summary>
+        /// <typeparam name="T">Type of the table. This must contain the <see cref="TableAttribute"/>.</typeparam>
+        /// <returns>Number of rows.</returns>
+        int GetRowCount<T>(IReadOnlyList<WhereClause> whereClauses);
+
+        /// <summary>
         /// Selects specific records that are filtered by a 'where clause'. (SELECT * FROM [TABLE-NAME] WHERE ...;)
         /// </summary>
         /// <param name="whereClauses">Where clauses for filtering the records.</param>

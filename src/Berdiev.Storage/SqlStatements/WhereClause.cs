@@ -17,6 +17,18 @@ namespace Berdiev.Storage.SqlStatements
             ColumnName = columnName;
             ColumnType = columnValue?.GetType();
             ColumnValue = columnValue;
+            SqlOperator = SqlOperator.Equals;
+        }
+
+        /// <summary>
+        /// Instantiates the where clause.
+        /// </summary>
+        public WhereClause(string columnName, object columnValue, SqlOperator sqlOperator)
+        {
+            ColumnName = columnName;
+            ColumnType = columnValue?.GetType();
+            ColumnValue = columnValue;
+            SqlOperator = sqlOperator;
         }
 
         /// <summary>
@@ -33,5 +45,10 @@ namespace Berdiev.Storage.SqlStatements
         /// The value of the table column.
         /// </summary>
         public Object ColumnValue { get; }
+
+        /// <summary>
+        /// Operator of the sql where clause for values.
+        /// </summary>
+        public SqlOperator SqlOperator { get; }
     }
 }

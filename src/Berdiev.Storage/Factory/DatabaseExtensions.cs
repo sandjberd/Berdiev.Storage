@@ -1,7 +1,9 @@
 ﻿//Copyright by Sandjar Berdiev
 
+using System;
 using System.Linq;
 using System.Text;
+using Berdiev.Storage.SqlStatements;
 
 namespace Berdiev.Storage.Factory
 {
@@ -43,6 +45,27 @@ namespace Berdiev.Storage.Factory
         public static string ToSql(this Column column)
         {
             return ColumnToSqlConverter.ConvertToSql(column);
+        }
+
+        public static string ToSqlString(this SqlOperator sqlOperator)
+        {
+            switch (sqlOperator)
+            {
+                case SqlOperator.Equals:
+                    return " = ";
+                case SqlOperator.NotEquals:
+                    return " != ";
+                case SqlOperator.GreaterThan:
+                    return " > ";
+                case SqlOperator.LesserThan:
+                    return " < ";
+                case SqlOperator.GreaterEqual:
+                    return " >= ";
+                case SqlOperator.LesserEqual:
+                    return " <= ";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sqlOperator), sqlOperator, null);
+            } 
         }
     }
 }
