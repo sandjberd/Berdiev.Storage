@@ -420,6 +420,16 @@ namespace Berdiev.Storage.Tests.ConnectionBridge
             Assert.IsTrue(insertManyRes);
         }
 
+        [Test]
+        public void CanAddIndex()
+        {
+            var connection = ConnectionFactory.CreateSqLite(_path);
+
+            var t = connection.CreateIndex<Person>("Foo", "Name");
+
+            Assert.AreEqual(true, t);
+        }
+
         private List<Person> _CreateManyPersons(int count)
         {
             var persons = new List<Person>();

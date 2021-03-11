@@ -292,6 +292,12 @@
             <typeparam name="T">Type of the table. This must contain the <see cref="T:Berdiev.Storage.TableAttribute"/>.</typeparam>
             <returns>True, if deletion was successful, otherwise false.</returns>
         </member>
+        <member name="M:Berdiev.Storage.IConnectionBridge.CreateIndex``1(System.String,System.String)">
+            <summary>
+            Creates an index on given column.
+            </summary>
+            <returns>True, if the operation was successful.</returns>
+        </member>
         <member name="T:Berdiev.Storage.SqlStatements.ColumnToUpdate">
             <summary>
             This represents a column of a specific table for update.

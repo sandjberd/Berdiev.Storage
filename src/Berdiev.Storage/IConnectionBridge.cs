@@ -152,5 +152,11 @@ namespace Berdiev.Storage
         /// <typeparam name="T">Type of the table. This must contain the <see cref="TableAttribute"/>.</typeparam>
         /// <returns>True, if deletion was successful, otherwise false.</returns>
         Task<bool> DeleteAsync<T>(IReadOnlyList<WhereClause> whereClauses);
+
+        /// <summary>
+        /// Creates an index on given column.
+        /// </summary>
+        /// <returns>True, if the operation was successful.</returns>
+        bool CreateIndex<T>(string name, string columnName);
     }
 }

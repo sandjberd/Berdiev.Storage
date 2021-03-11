@@ -314,6 +314,32 @@ namespace Berdiev.Storage.ConnectionBridge
             return affectedRows > 0;
         }
 
+        public bool CreateIndex<T>(string name, string columnName)
+        {
+            Monitor.Enter(_lock);
+
+            var tableName = _GetTableName<T>();
+
+            var sql = $"CREATE INDEX {name} ON {tableName} ({columnName})";
+
+            var res = false;
+
+            try
+            {
+                _connection.Execute(new CommandDefinition(sql));
+
+                res = true;
+            }
+            catch (Exception e)
+            {
+                res = false;
+            }
+
+            Monitor.Exit(_lock);
+
+            return res;
+        }
+
         private string _GetTableName<T>()
         {
             var tableAttribute = typeof(T).GetOneAttribute<TableAttribute>();
